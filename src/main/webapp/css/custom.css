@@ -1,0 +1,500 @@
+/* ==========================================
+   电影推荐系统 - 暗黑影院风格
+   ========================================== */
+
+/* === 全局样式 === */
+body {
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* === 认证页面 (登录/注册) === */
+body.auth-page {
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%) !important;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-container {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 15px;
+    padding: 40px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+}
+
+.auth-container.wide {
+    max-width: 540px;
+}
+
+.logo-icon {
+    background: linear-gradient(135deg, #d4af4f, #ffd700);
+    color: #000;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+}
+
+.auth-title {
+    font-family: 'Cinzel', 'Georgia', serif;
+    color: #d4af37;
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.auth-subtitle {
+    color: #888;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 0.95rem;
+}
+
+.auth-container .form-floating {
+    margin-bottom: 20px;
+}
+
+.auth-container .form-control {
+    background-color: rgba(255, 255, 255, 0.07) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff !important;
+}
+
+.auth-container .form-control:focus {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    border-color: #d4af37 !important;
+    box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25) !important;
+}
+
+.auth-container .form-floating > .form-control:focus ~ label,
+.auth-container .form-floating > .form-control:not(:placeholder-shown) ~ label {
+    color: #d4af37 !important;
+}
+
+.auth-container .form-floating label {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.auth-container .btn-gold {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* 强制日期控件和下拉框使用暗色主题 (关键!) */
+.auth-container input[type="date"],
+.auth-container select {
+    color-scheme: dark;
+}
+
+/* --- 修复文字重叠问题 (关键修复) --- */
+
+/* 1. 默认情况下，隐藏 placeholder (占位符)，只显示 Label */
+.auth-container .form-floating > .form-control::placeholder {
+    color: transparent !important;
+}
+
+/* 2. 当输入框获得焦点时，稍微显示一点 placeholder (可选，也可以保持透明) */
+.auth-container .form-floating > .form-control:focus::placeholder {
+    color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* 3. 调整输入框高度，给浮动标签留出足够空间 */
+.auth-container .form-floating > .form-control {
+    height: calc(3.5rem + 2px);
+    line-height: 1.25;
+}
+
+/* 4. 调整 Label 的位置和颜色，防止它看起来位置不对 */
+.auth-container .form-floating > label {
+    padding: 1rem 0.75rem;
+    color: rgba(255, 255, 255, 0.7); /* 平时是浅灰 */
+}
+
+/* 5. 修复自动填充 (Autofill) 背景变白的问题 */
+/* 这是浏览器强制样式的覆盖写法 */
+.auth-container input:-webkit-autofill,
+.auth-container input:-webkit-autofill:hover,
+.auth-container input:-webkit-autofill:focus,
+.auth-container input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #2b2b2b inset !important; /* 填充深色背景 */
+    -webkit-text-fill-color: white !important; /* 填充白色文字 */
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.auth-links {
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.auth-links p {
+    margin-bottom: 8px;
+}
+
+.auth-links a {
+    color: #d4af37;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.auth-links a:hover {
+    color: #ffd700;
+    text-decoration: underline;
+}
+
+.auth-container .form-select {
+    background-color: rgba(255, 255, 255, 0.07) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff !important;
+}
+
+.auth-container .form-select:focus {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+;
+    border-color: #d4af37 !important;
+    box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25) !important;
+}
+
+.auth-container .form-select option {
+    background-color: #333;
+    color: #fff;
+}
+
+.auth-container input[type="date"] {
+    color-scheme: dark;
+}
+
+.auth-container input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.auth-container .alert-danger {
+    background-color: rgba(212, 0, 0, 0.15) !important;
+    border: 1px solid rgba(212, 0, 0, 0.3) !important;
+    color: #ff6b6b !important;
+}
+
+/* === 导航栏专用样式 === */
+.navbar-brand {
+    font-family: 'Georgia', serif; /* 更有电影感 */
+    letter-spacing: 2px;
+}
+
+.nav-link.active {
+    color: #ffffff !important;
+    font-weight: bold;
+    border-bottom: 2px solid #d4af37; /* 选中时底部有金线 */
+}
+
+.nav-link.text-white-50 {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.nav-link.text-white-50:hover {
+    color: #ffffff !important;
+}
+
+.search-input {
+    background-color: #333;
+    border: none;
+    color: #fff;
+    padding-left: 15px;
+}
+
+.search-input:focus {
+    background-color: #444;
+    color: #fff;
+    box-shadow: none;
+}
+
+/* === 导航栏 (保留旧样式作为后备) === */
+.navbar {
+    background-color: #000000 !important;
+    border-bottom: 2px solid #f5c518;
+}
+
+/* === 电影卡片 === */
+.movie-card {
+    background-color: #1e1e1e !important;
+    border: none !important;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.movie-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px rgba(245, 197, 24, 0.3) !important;
+}
+
+/* === 海报图片 === */
+.movie-poster {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    background-color: #1e1e1e;
+}
+
+.movie-detail-poster {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 12px;
+    background-color: #1e1e1e;
+}
+
+/* === 按钮样式 === */
+.btn-gold {
+    background: linear-gradient(135deg, #f5c518, #ffd700) !important;
+    color: #121212 !important;
+    border: none !important;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-gold:hover {
+    background: linear-gradient(135deg, #ffd700, #f5c518) !important;
+    transform: scale(1.05);
+    color: #121212 !important;
+    box-shadow: 0 5px 15px rgba(245, 197, 24, 0.4) !important;
+}
+
+.btn-outline-gold {
+    border: 2px solid #f5c518 !important;
+    color: #f5c518 !important;
+    background: transparent !important;
+    transition: all 0.3s;
+}
+
+.btn-outline-gold:hover {
+    background: rgba(245, 197, 24, 0.1) !important;
+    color: #f5c518 !important;
+    border-color: #ffd700 !important;
+}
+
+/* === Jumbotron 区域 === */
+.jumbotron {
+    background: linear-gradient(135deg, #1a1a1a, #0f0f0f) !important;
+    border: 1px solid #f5c518;
+    border-radius: 20px;
+    padding: 40px;
+    margin: 30px 0;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* === 区块标题 === */
+.section-title {
+    color: #f5c518 !important;
+}
+
+/* === 评分徽章 === */
+.rating-badge {
+    background: linear-gradient(135deg, #f5c518, #ffd700) !important;
+    color: #121212 !important;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+/* === 表单样式 === */
+.form-control,
+.form-select {
+    background-color: #1e1e1e !important;
+    border: 1px solid #333 !important;
+    color: #e0e0e0 !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: #1e1e1e !important;
+    border-color: #f5c518 !important;
+    color: #fff !important;
+    box-shadow: 0 0 0 0.2rem rgba(245, 197, 24, 0.25) !important;
+}
+
+.form-control::placeholder {
+    color: #666 !important;
+}
+
+/* === Alert 样式 === */
+.alert {
+    background-color: #1e1e1e !important;
+    border: 1px solid #333 !important;
+    color: #e0e0e0 !important;
+}
+
+.alert-danger {
+    background-color: rgba(229, 9, 20, 0.2) !important;
+    border-color: #e50914 !important;
+    color: #ff6b6b !important;
+}
+
+.alert-success {
+    background-color: rgba(46, 204, 113, 0.2) !important;
+    border-color: #2ecc71 !important;
+    color: #51cf66 !important;
+}
+
+.alert-warning {
+    background-color: rgba(245, 197, 24, 0.2) !important;
+    border-color: #f5c518 !important;
+    color: #f5c518 !important;
+}
+
+.alert-light {
+    background-color: #1e1e1e !important;
+    border-color: #333 !important;
+    color: #e0e0e0 !important;
+}
+
+/* === 卡片主体 === */
+.card-body-custom {
+    background-color: #1e1e1e !important;
+}
+
+/* === 区块卡片 === */
+.section-card {
+    background-color: #1e1e1e !important;
+    border: 1px solid #333 !important;
+    border-radius: 15px;
+}
+
+/* === 评论项 === */
+.comment-item {
+    background-color: #1a1a1a !important;
+    border: 1px solid #333 !important;
+}
+
+.comment-item:hover {
+    border-color: #f5c518 !important;
+    background-color: #1e1e1e !important;
+}
+
+/* === 信息网格 === */
+.info-label {
+    color: #f5c518 !important;
+}
+
+.info-value {
+    color: #e0e0e0 !important;
+}
+
+/* === 评分框 === */
+.score-box {
+    background: linear-gradient(135deg, rgba(245, 197, 24, 0.1), rgba(255, 215, 0, 0.05)) !important;
+    border: 2px solid #f5c518 !important;
+}
+
+.score-value {
+    color: #f5c518 !important;
+}
+
+/* === 海报容器 === */
+.movie-poster-container {
+    background-color: #1e1e1e !important;
+    border: 1px solid #333 !important;
+}
+
+/* === 电影信息容器 === */
+.movie-info-container {
+    background-color: #1e1e1e !important;
+    border: 1px solid #333 !important;
+}
+
+/* === 简介内容 === */
+.plot-content {
+    background-color: #1a1a1a !important;
+    color: #e0e0e0 !important;
+}
+
+/* === 评论表单 === */
+.comment-form {
+    background-color: #1a1a1a !important;
+    border: 1px solid #333 !important;
+}
+
+/* === 评论用户 === */
+.comment-user {
+    color: #f5c518 !important;
+}
+
+/* === 搜索框 === */
+.navbar .form-control {
+    background-color: #1e1e1e !important;
+    border: 1px solid #333 !important;
+    color: #e0e0e0 !important;
+}
+
+.navbar .form-control:focus {
+    background-color: #1e1e1e !important;
+    border-color: #f5c518 !important;
+    box-shadow: 0 0 0 0.2rem rgba(245, 197, 24, 0.25) !important;
+}
+
+/* === 空状态 === */
+.empty-state {
+    color: #666 !important;
+}
+
+.empty-state h3 {
+    color: #e0e0e0 !important;
+}
+
+/* === 链接颜色 === */
+a {
+    color: #e0e0e0;
+}
+
+a:hover {
+    color: #f5c518;
+}
+
+/* === 文本颜色覆盖 === */
+.text-muted {
+    color: #888 !important;
+}
+
+.text-warning {
+    color: #f5c518 !important;
+}
+
+/* === 页脚 === */
+footer {
+    background-color: #000000 !important;
+    border-top: 2px solid #f5c518 !important;
+}
+
+/* === 响应式设计 === */
+@media (max-width: 768px) {
+    .movie-poster {
+        height: 250px;
+    }
+
+    .jumbotron {
+        padding: 25px 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .movie-poster {
+        height: 200px;
+    }
+
+    .card-body-custom {
+        padding: 15px;
+    }
+}

@@ -1,0 +1,563 @@
+/* ==========================================
+   电影推荐系统 - 主题样式
+   深色电影院美学风格
+   ========================================== */
+
+/* === 全局样式 === */
+body {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #e0e0e0;
+}
+
+/* === 导航栏 === */
+.navbar {
+  background: rgba(26, 26, 46, 0.95) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.navbar-brand {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #ffd700 !important;
+}
+
+.nav-link {
+  color: #b0b0b0 !important;
+  transition: all 0.3s;
+  padding: 10px 15px !important;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #ffd700 !important;
+  background: rgba(255, 215, 0, 0.1) !important;
+  border-radius: 5px;
+}
+
+.user-info {
+  color: #ffd700 !important;
+  font-weight: 500;
+}
+
+/* === 按钮样式 === */
+.btn-gold {
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  color: #1a1a2e;
+  border: none;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.btn-gold:hover {
+  background: linear-gradient(135deg, #ffed4e, #ffd700);
+  transform: scale(1.05);
+  color: #1a1a2e;
+}
+
+.btn-outline-gold {
+  border: 1px solid #ffd700;
+  color: #ffd700;
+  background: transparent;
+  transition: all 0.3s;
+}
+
+.btn-outline-gold:hover {
+  background: rgba(255, 215, 0, 0.1);
+  color: #ffd700;
+}
+
+.btn-logout {
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  color: white;
+  border: none;
+  transition: all 0.3s;
+}
+
+.btn-logout:hover {
+  background: linear-gradient(135deg, #c82333, #bd2130);
+  color: white;
+}
+
+/* === 区块标题 === */
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #ffd700;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #ffd700, transparent);
+}
+
+/* === 电影卡片 === */
+.movie-card {
+  background: rgba(30, 30, 50, 0.8);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 15px;
+  overflow: hidden;
+  transition: all 0.3s;
+  height: 100%;
+}
+
+.movie-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  border-color: #ffd700;
+}
+
+.movie-poster {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  background: #2a2a4a;
+}
+
+.card-body-custom {
+  padding: 20px;
+}
+
+.movie-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #e0e0e0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rating-badge {
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  color: #1a1a2e;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+/* === Jumbotron / Hero区域 === */
+.jumbotron {
+  background: linear-gradient(
+    135deg,
+    rgba(26, 26, 46, 0.9),
+    rgba(22, 33, 62, 0.9)
+  );
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 20px;
+  padding: 40px;
+  margin: 30px 0;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.welcome-icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+/* === 动画 === */
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-15px);
+  }
+  60% {
+    transform: translateY(-7px);
+  }
+}
+
+.animated-icon {
+  animation: bounce 2s infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.movie-card {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* === 响应式设计 === */
+@media (max-width: 768px) {
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+
+  .jumbotron {
+    padding: 25px 15px;
+  }
+
+  .welcome-icon {
+    font-size: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .movie-poster {
+    height: 240px;
+  }
+}
+
+@media (max-width: 576px) {
+  .movie-card {
+    margin-bottom: 20px;
+  }
+
+  .card-body-custom {
+    padding: 15px;
+  }
+
+  .movie-title {
+    font-size: 1rem;
+  }
+}
+
+/* === 空状态样式 === */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #a0a0a0;
+}
+
+.empty-state i {
+  font-size: 4rem;
+  color: #ffd700;
+  margin-bottom: 20px;
+}
+
+.empty-state h3 {
+  color: #e0e0e0;
+  margin-bottom: 10px;
+}
+
+/* === 评论样式 === */
+.comment-item {
+  background: rgba(30, 30, 50, 0.6);
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 15px;
+  transition: all 0.3s;
+}
+
+/* === 搜索框样式 === */
+.navbar .form-control {
+  background: rgba(30, 30, 50, 0.6) !important;
+  border: 1px solid rgba(255, 215, 0, 0.2) !important;
+  color: #e0e0e0 !important;
+  transition: all 0.3s;
+}
+
+.navbar .form-control:focus {
+  background: rgba(30, 30, 50, 0.8) !important;
+  border-color: #ffd700 !important;
+  box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.15) !important;
+  color: #fff !important;
+}
+
+.navbar .form-control::placeholder {
+  color: #888 !important;
+}
+
+/* === Flex 工具类 === */
+.flex-grow-1 {
+  flex-grow: 1 !important;
+}
+
+.comment-item:hover {
+  border-color: rgba(255, 215, 0, 0.3);
+  background: rgba(30, 30, 50, 0.8);
+}
+
+.comment-author {
+  color: #ffd700;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.comment-time {
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.comment-content {
+  color: #d0d0d0;
+  line-height: 1.6;
+  margin-top: 10px;
+}
+
+/* === 表单样式增强 === */
+.form-control,
+.form-select {
+  background: rgba(30, 30, 50, 0.6) !important;
+  border: 1px solid rgba(255, 215, 0, 0.2) !important;
+  color: #e0e0e0 !important;
+  transition: all 0.3s;
+}
+
+.form-control:focus,
+.form-select:focus {
+  background: rgba(30, 30, 50, 0.8) !important;
+  border-color: #ffd700 !important;
+  box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.15) !important;
+  color: #fff !important;
+}
+
+.form-control::placeholder {
+  color: #888 !important;
+}
+
+textarea.form-control {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* === Alert样式 === */
+.alert {
+  border-radius: 10px;
+  border: none;
+}
+
+.alert-danger {
+  background: rgba(220, 53, 69, 0.2);
+  color: #ff6b6b;
+  border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+.alert-success {
+  background: rgba(46, 204, 113, 0.2);
+  color: #51cf66;
+  border: 1px solid rgba(46, 204, 113, 0.3);
+}
+
+/* === 卡片内按钮组 === */
+.btn-group-card {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.875rem;
+}
+
+/* === 页脚样式 === */
+footer {
+  background: rgba(26, 26, 46, 0.95);
+  border-top: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+/* === 电影详情页样式 === */
+.movie-poster-container {
+  background: rgba(30, 30, 50, 0.6);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.movie-detail-poster {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.movie-info-container {
+  background: rgba(30, 30, 50, 0.6);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 15px;
+  padding: 30px;
+  height: 100%;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 15px 10px;
+  align-items: center;
+  margin: 25px 0;
+}
+
+.info-label {
+  color: #ffd700;
+  font-weight: 600;
+}
+
+.info-value {
+  color: #d0d0d0;
+}
+
+.score-display {
+  display: flex;
+  justify-content: center;
+  margin: 25px 0;
+}
+
+.score-box {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 237, 78, 0.1));
+  border: 2px solid #ffd700;
+  border-radius: 15px;
+  padding: 20px 40px;
+  text-align: center;
+}
+
+.score-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ffd700;
+  margin-bottom: 5px;
+}
+
+.score-label {
+  font-size: 0.9rem;
+  color: #b0b0b0;
+}
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.section-card {
+  background: rgba(30, 30, 50, 0.6);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 15px;
+  padding: 25px;
+}
+
+.plot-content {
+  background: rgba(20, 20, 40, 0.6);
+  border-radius: 10px;
+  padding: 20px;
+  line-height: 1.8;
+  color: #d0d0d0;
+}
+
+.comment-form {
+  background: rgba(20, 20, 40, 0.6);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.comment-list {
+  margin-top: 20px;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.comment-user {
+  color: #ffd700;
+  font-weight: 600;
+}
+
+.comment-time {
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.comment-body {
+  color: #d0d0d0;
+  line-height: 1.6;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .info-grid {
+    grid-template-columns: 80px 1fr;
+    gap: 12px 8px;
+  }
+
+  .score-box {
+    padding: 15px 30px;
+  }
+
+  .score-value {
+    font-size: 2rem;
+  }
+
+  .movie-info-container {
+    padding: 20px;
+  }
+
+  .section-card {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .info-label {
+    font-size: 0.9rem;
+  }
+
+  .info-value {
+    font-size: 0.9rem;
+  }
+
+  .score-box {
+    padding: 12px 20px;
+  }
+
+  .score-value {
+    font-size: 1.5rem;
+  }
+
+  .movie-info-container {
+    padding: 15px;
+  }
+
+  .section-card {
+    padding: 15px;
+  }
+
+  .comment-item {
+    padding: 15px;
+  }
+
+  .comment-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

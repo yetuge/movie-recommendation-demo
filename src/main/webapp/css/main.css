@@ -1,0 +1,159 @@
+/* ==========================================
+   Main Page Specific Styles
+   ========================================== */
+
+/* Fade-in animation for hero content */
+.hero-content > * {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.hero-badge {
+    animation-delay: 0.1s;
+}
+
+.hero-title {
+    animation-delay: 0.2s;
+}
+
+.hero-subtitle {
+    animation-delay: 0.3s;
+}
+
+.hero-actions {
+    animation-delay: 0.4s;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Stagger animation for movie cards */
+.movie-grid > .movie-card {
+    opacity: 0;
+    animation: fadeInCard 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.movie-grid > .movie-card:nth-child(1) { animation-delay: 0.1s; }
+.movie-grid > .movie-card:nth-child(2) { animation-delay: 0.15s; }
+.movie-grid > .movie-card:nth-child(3) { animation-delay: 0.2s; }
+.movie-grid > .movie-card:nth-child(4) { animation-delay: 0.25s; }
+.movie-grid > .movie-card:nth-child(5) { animation-delay: 0.3s; }
+.movie-grid > .movie-card:nth-child(6) { animation-delay: 0.35s; }
+.movie-grid > .movie-card:nth-child(7) { animation-delay: 0.4s; }
+.movie-grid > .movie-card:nth-child(8) { animation-delay: 0.45s; }
+
+@keyframes fadeInCard {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Movie card shine effect on hover */
+.movie-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+    transform: skewX(-20deg);
+    transition: none;
+    z-index: 2;
+}
+
+.movie-card:hover::after {
+    animation: shine 0.6s ease-in-out;
+}
+
+@keyframes shine {
+    to {
+        left: 150%;
+    }
+}
+
+/* Rating badge pulse animation */
+.movie-rating-badge {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Stop pulse on hover */
+.movie-card:hover .movie-rating {
+    animation: none;
+}
+
+/* Section header decoration */
+.section-title::after {
+    content: '';
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 10px;
+    background: var(--color-accent-gold);
+}
+
+/* Scroll indicator for hero */
+.hero-content::after {
+    content: '';
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 50px;
+    border: 2px solid var(--color-border);
+    border-radius: 20px;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+.hero-content::after::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: var(--color-accent-gold);
+    border-radius: 50%;
+    animation: scrollDown 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(10px); }
+}
+
+@keyframes scrollDown {
+    0% { opacity: 1; top: 8px; }
+    100% { opacity: 0; top: 28px; }
+}
+
+/* Hide scroll indicator on small screens */
+@media (max-width: 768px) {
+    .hero-content::after {
+        display: none;
+    }
+}
