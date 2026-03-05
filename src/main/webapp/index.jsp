@@ -80,13 +80,13 @@
                 for (MovieInformation movie : hotMovies) {
                     if (count >= 4) break;
                     count++;
-                    String encodedMovieName = java.net.URLEncoder.encode(movie.getMovieName(), "UTF-8");
+                    String imageUrl = movie.getImageUrl() != null ? movie.getImageUrl() : "default.jpg";
         %>
             <div class="movie-card">
                 <div class="movie-poster-wrapper">
                     <img loading="lazy"
-                         src="${pageContext.request.contextPath}/images/movie_<%= movie.getMovieId() %>.jpg"
-                         onerror="this.src='https://via.placeholder.com/300x450/1a1a25/d4af37?text=<%= encodedMovieName %>'"
+                         src="${pageContext.request.contextPath}/images/<%= imageUrl %>"
+                         onerror="this.src='${pageContext.request.contextPath}/images/default.jpg'"
                          alt="<%= movie.getMovieName() %>"
                          class="movie-poster">
                 </div>
@@ -117,86 +117,15 @@
                 }
             } else {
         %>
-            <!-- Static demo movies when no data -->
-            <div class="movie-card">
-                <div class="movie-poster-wrapper">
-                    <img src="https://via.placeholder.com/300x450/1a1a25/d4af37?text=Interstellar"
-                         alt="星际穿越" class="movie-poster" loading="lazy">
-                </div>
-                <div class="movie-info">
-                    <h5 class="movie-title">星际穿越</h5>
-                    <div class="movie-meta">
-                        <span class="movie-genre">科幻</span>
-                        <span class="movie-year">2014</span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="rating-badge">★ 9.3</span>
-                        <a href="movieList" class="btn btn-sm btn-outline-gold">
-                            <i class="fas fa-eye"></i>浏览
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="movie-card">
-                <div class="movie-poster-wrapper">
-                    <img src="https://via.placeholder.com/300x450/1a1a25/d4af37?text=The+Shawshank"
-                         alt="肖申克的救赎" class="movie-poster" loading="lazy">
-                </div>
-                <div class="movie-info">
-                    <h5 class="movie-title">肖申克的救赎</h5>
-                    <div class="movie-meta">
-                        <span class="movie-genre">剧情</span>
-                        <span class="movie-year">1994</span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="rating-badge">★ 9.7</span>
-                        <a href="movieList" class="btn btn-sm btn-outline-gold">
-                            <i class="fas fa-eye"></i>浏览
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="movie-card">
-                <div class="movie-poster-wrapper">
-                    <img src="https://via.placeholder.com/300x450/1a1a25/d4af37?text=Inception"
-                         alt="盗梦空间" class="movie-poster" loading="lazy">
-                </div>
-                <div class="movie-info">
-                    <h5 class="movie-title">盗梦空间</h5>
-                    <div class="movie-meta">
-                        <span class="movie-genre">科幻</span>
-                        <span class="movie-year">2010</span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="rating-badge">★ 9.0</span>
-                        <a href="movieList" class="btn btn-sm btn-outline-gold">
-                            <i class="fas fa-eye"></i>浏览
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="movie-card">
-                <div class="movie-poster-wrapper">
-                    <img src="https://via.placeholder.com/300x450/1a1a25/d4af37?text=Forrest+Gump"
-                         alt="阿甘正传" class="movie-poster" loading="lazy">
-                </div>
-                <div class="movie-info">
-                    <h5 class="movie-title">阿甘正传</h5>
-                    <div class="movie-meta">
-                        <span class="movie-genre">剧情</span>
-                        <span class="movie-year">1994</span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="rating-badge">★ 9.5</span>
-                        <a href="movieList" class="btn btn-sm btn-outline-gold">
-                            <i class="fas fa-eye"></i>浏览
-                        </a>
-                    </div>
-                </div>
-            </div>
+        <!-- Empty State -->
+        <div class="empty-state" style="grid-column: 1 / -1;">
+            <i class="fas fa-film"></i>
+            <h2>暂无电影</h2>
+            <p class="text-muted mb-4">数据库中暂时没有电影数据</p>
+            <a href="movieList" class="btn btn-secondary">
+                <i class="fas fa-home"></i>返回首页
+            </a>
+        </div>
         <%
             }
         %>

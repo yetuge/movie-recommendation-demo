@@ -18,6 +18,7 @@ public class MovieInformation {
     private double score;          // 评分
     private int duration;          // 时长(分钟)
     private String country;         // 国家
+    private String imageUrl;        // 海报图片URL
 
     public MovieInformation() {
     }
@@ -151,6 +152,15 @@ public class MovieInformation {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    // Getter/Setter: imageUrl
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Override

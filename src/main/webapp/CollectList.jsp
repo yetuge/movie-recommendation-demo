@@ -29,13 +29,14 @@
             if (collectList != null && !collectList.isEmpty()) {
                 SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
                 for (MovieInformation movie : collectList) {
+                    String imageUrl = movie.getImageUrl() != null ? movie.getImageUrl() : "default.jpg";
         %>
             <div class="col-md-3 col-sm-6 mb-4">
                 <div class="movie-card">
-                    <img loading="lazy" src="${pageContext.request.contextPath}/images/movie_<%= movie.getMovieId() %>.jpg"
+                    <img loading="lazy" src="${pageContext.request.contextPath}/images/<%= imageUrl %>"
                          alt="<%= movie.getMovieName() %>"
                          class="movie-poster"
-                         onerror="this.src='https://via.placeholder.com/200x300/2a2a4a/ffd700?text=Movie'">
+                         onerror="this.src='${pageContext.request.contextPath}/images/default.jpg'">
                     <div class="card-body-custom">
                         <h5 class="movie-title" title="<%= movie.getMovieName() %>">
                             <%= movie.getMovieName() %>

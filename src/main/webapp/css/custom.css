@@ -240,11 +240,17 @@ body.auth-page {
 }
 
 /* === 海报图片 === */
+/* 电影海报：完美无损显示方案 (精准定位 movie-poster) */
+/* 电影海报：强制修长比例 + 无缝填满 */
 .movie-poster {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    background-color: #1e1e1e;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 2 / 3 !important; /* 最高优先级：强制要求 2:3 修长比例 */
+    object-fit: cover !important; /* 撑满卡片 */
+    object-position: top !important; /* 优先展示头部 */
+    display: block !important; /* 解决图片底部的神秘留白缝隙 */
+    border-radius: var(--bs-card-inner-border-radius) var(--bs-card-inner-border-radius) 0 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .movie-detail-poster {
@@ -481,7 +487,7 @@ footer {
 /* === 响应式设计 === */
 @media (max-width: 768px) {
     .movie-poster {
-        height: 250px;
+        height: auto;
     }
 
     .jumbotron {
@@ -491,7 +497,7 @@ footer {
 
 @media (max-width: 576px) {
     .movie-poster {
-        height: 200px;
+        height: auto;
     }
 
     .card-body-custom {

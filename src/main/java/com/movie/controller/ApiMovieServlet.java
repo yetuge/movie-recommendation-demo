@@ -87,8 +87,8 @@ public class ApiMovieServlet extends HttpServlet {
         String json = "";
 
         if ("list".equals(action)) {
-            // 获取电影列表
-            List<MovieInformation> movieList = movieDao.findAllMovies();
+            // 获取正在上映的电影列表（前台专用）
+            List<MovieInformation> movieList = movieDao.findShowingMovies();
             json = JsonUtil.toJson(movieList);
         } else if ("detail".equals(action)) {
             // 获取电影详情

@@ -69,6 +69,14 @@
                                                 <i class="fas fa-heart text-danger me-2"></i>我的收藏
                                             </a>
                                         </li>
+                                        <c:if test="${sessionScope.currentUser.userMailbox == 'test@test.com'}">
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li>
+                                                <a class="dropdown-item text-success" href="admin/movies">
+                                                    <i class="fas fa-cogs me-2"></i>后台管理
+                                                </a>
+                                            </li>
+                                        </c:if>
                                         <li><hr class="dropdown-divider"></li>
                                         <li>
                                             <a class="dropdown-item text-danger" href="logout">

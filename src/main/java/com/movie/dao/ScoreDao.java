@@ -161,7 +161,7 @@ public class ScoreDao {
             String sql = "SELECT m.movie_id, m.movie_name, m.plot, m.genre, m.release_time, m.director, m.main_actors, m.duration, m.country, m.score " +
                     "FROM movie_score s " +
                     "JOIN movie_information m ON s.movie_id = m.movie_id " +
-                    "WHERE s.user_id = ? AND s.score >= ? " +
+                    "WHERE s.user_id = ? AND s.score >= ? AND m.is_showing = 1 " +
                     "ORDER BY s.score DESC";
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, userId);
@@ -209,7 +209,7 @@ public class ScoreDao {
                     "FROM movie_score s " +
                     "JOIN movie_information m ON s.movie_id = m.movie_id " +
                     "GROUP BY s.movie_id " +
-                    "HAVING COUNT(*) >= 2 " +
+                    "HAVING COUNT(*) >= 2 AND m.is_showing = 1 " +
                     "ORDER BY avgScore DESC, COUNT(*) DESC " +
                     "LIMIT ?";
             pstmt = conn.prepareStatement(sql);

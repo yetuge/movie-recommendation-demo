@@ -119,7 +119,7 @@ public class CollectDao {
             String sql = "SELECT m.movie_id, m.movie_name, m.plot, m.genre, m.release_time, m.director, m.main_actors, m.duration, m.country, m.score " +
                     "FROM collect c " +
                     "JOIN movie_information m ON c.movie_id = m.movie_id " +
-                    "WHERE c.user_id = ? " +
+                    "WHERE c.user_id = ? AND m.is_showing = 1 " +
                     "ORDER BY c.collect_time DESC";
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, userId);

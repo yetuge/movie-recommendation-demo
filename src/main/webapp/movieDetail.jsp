@@ -26,6 +26,7 @@
 
     if (avgScore == null) avgScore = 0.0;
     if (isCollected == null) isCollected = false;
+    String imageUrl = movie != null && movie.getImageUrl() != null ? movie.getImageUrl() : "default.jpg";
 %>
 
     <!-- Error Message -->
@@ -49,10 +50,10 @@
             <div class="col-lg-4 col-md-5 mb-4 mb-md-0">
                 <div class="movie-poster-container">
                     <img loading="lazy"
-                         src="${pageContext.request.contextPath}/images/movie_${movie.movieId}.jpg"
+                         src="${pageContext.request.contextPath}/images/<%= imageUrl %>"
                          alt="${movie.name}"
                          class="movie-detail-poster"
-                         onerror="this.src='https://via.placeholder.com/350x500/1a1a25/d4af37?text=No+Image'">
+                         onerror="this.src='${pageContext.request.contextPath}/images/default.jpg'">
                 </div>
             </div>
 
@@ -89,7 +90,7 @@
                     </div>
 
                     <!-- Score Display -->
-                    <div class="score-display">
+'                    <div class="score-display">
                         <div class="score-box">
                             <div class="score-value">★ <%= String.format("%.1f", avgScore) %></div>
                             <div class="score-label">平均评分</div>

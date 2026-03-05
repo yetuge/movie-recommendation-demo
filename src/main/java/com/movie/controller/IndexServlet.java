@@ -33,8 +33,8 @@ public class IndexServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // 获取热门电影（前4部）
-        List<MovieInformation> hotMovies = movieDao.findAllMovies();
+        // 获取热门电影（前4部，仅显示正在上映的电影）
+        List<MovieInformation> hotMovies = movieDao.findShowingMovies();
         request.setAttribute("hotMovies", hotMovies);
 
         // 检查用户是否登录，如果登录则生成推荐

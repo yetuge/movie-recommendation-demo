@@ -46,13 +46,13 @@
             if (movies != null && !movies.isEmpty()) {
                 SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
                 for (MovieInformation movie : movies) {
-                    String encodedMovieName = java.net.URLEncoder.encode(movie.getMovieName(), "UTF-8");
+                    String imageUrl = movie.getImageUrl() != null ? movie.getImageUrl() : "default.jpg";
         %>
             <div class="movie-card">
                 <div class="movie-poster-wrapper">
                     <img loading="lazy"
-                         src="${pageContext.request.contextPath}/images/movie_<%= movie.getMovieId() %>.jpg"
-                         onerror="this.src='https://via.placeholder.com/300x450/1a1a25/d4af37?text=<%= encodedMovieName %>'"
+                         src="${pageContext.request.contextPath}/images/<%= imageUrl %>"
+                         onerror="this.src='${pageContext.request.contextPath}/images/default.jpg'"
                          alt="<%= movie.getMovieName() %>"
                          class="movie-poster">
                 </div>
@@ -88,7 +88,7 @@
             <i class="fas fa-film"></i>
             <h2>暂无电影</h2>
             <p class="text-muted mb-4">数据库中暂时没有电影数据</p>
-            <a href="index.jsp" class="btn btn-secondary">
+            <a href="="index.jsp" class="btn btn-secondary">
                 <i class="fas fa-home"></i>返回首页
             </a>
         </div>

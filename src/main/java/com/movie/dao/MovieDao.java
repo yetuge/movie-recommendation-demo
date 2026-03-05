@@ -44,7 +44,7 @@ public class MovieDao {
             DBUtil.close(null, pstmt, rs);
 
             // 获取所有电影信息，按上映时间倒序排列
-            String sql = "SELECT movie_id, movie_name, plot, genre, release_time, director, main_actors, duration, country, score " +
+            String sql = "SELECT movie_id, movie_name, plot, genre, release_time, director, main_actors, duration, country, score, is_showing, image_url " +
                     "FROM movie_information " +
                     "ORDER BY release_time DESC";
             pstmt = conn.prepareStatement(sql);
@@ -62,6 +62,71 @@ public class MovieDao {
                 movie.setDuration(rs.getInt("duration"));
                 movie.setCountry(rs.getString("country"));
                 movie.setScore(rs.getDouble("score"));
+                movie.setIsShowing(rs.getInt("is_showing"));
+                movie.setImageUrl(rs.getString("image_url"));
+
+                // 设置平均分（如果没有评分，设为 0）
+                Integer movieId = movie.getMovieId();
+                movie.setScore(scoreMap.containsKey(movieId) ? scoreMap.get(movieId) : 0.0);
+
+                movieList.add(movie);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.close(conn, pstmt, rs);
+        }
+
+        return movieList;
+    }
+
+    /**
+     * 获取正在上映的电影列表（前台专用，包含计算的平均分）
+     * @return 电影列表
+     */
+    public List<MovieInformation> findShowingMovies() {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<MovieInformation> movieList = new ArrayList<>();
+        Map<Integer, Double> scoreMap = new HashMap<>();
+
+        try {
+            conn = DBUtil.getConnection();
+
+            // 首先获取所有电影的平均分
+            String scoreSql = "SELECT movie_id, AVG(score) as avgScore " +
+                    "FROM movie_score " +
+                    "GROUP BY movie_id";
+            pstmt = conn.prepareStatement(scoreSql);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                scoreMap.put(rs.getInt("movie_id"), rs.getDouble("avgScore"));
+            }
+            DBUtil.close(null, pstmt, rs);
+
+            // 获取正在上映的电影信息，按上映时间倒序排列
+            String sql = "SELECT movie_id, movie_name, plot, genre, release_time, director, main_actors, duration, country, score, is_showing, image_url " +
+                    "FROM movie_information " +
+                    "WHERE is_showing = 1 " +
+                    "ORDER BY release_time DESC";
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                MovieInformation movie = new MovieInformation();
+                movie.setMovieId(rs.getInt("movie_id"));
+                movie.setName(rs.getString("movie_name"));
+                movie.setContent(rs.getString("plot"));
+                movie.setGenre(rs.getString("genre"));
+                movie.setReleaseTime(rs.getDate("release_time"));
+                movie.setDirector(rs.getString("director"));
+                movie.setActors(rs.getString("main_actors"));
+                movie.setDuration(rs.getInt("duration"));
+                movie.setCountry(rs.getString("country"));
+                movie.setScore(rs.getDouble("score"));
+                movie.setIsShowing(rs.getInt("is_showing"));
+                movie.setImageUrl(rs.getString("image_url"));
 
                 // 设置平均分（如果没有评分，设为 0）
                 Integer movieId = movie.getMovieId();
@@ -93,7 +158,7 @@ public class MovieDao {
             conn = DBUtil.getConnection();
 
             // 获取电影信息
-            String sql = "SELECT movie_id, movie_name, plot, genre, release_time, director, main_actors, duration, country, score " +
+            String sql = "SELECT movie_id, movie_name, plot, genre, release_time, director, main_actors, duration, country, score, is_showing, image_url " +
                     "FROM movie_information " +
                     "WHERE movie_id = ?";
             pstmt = conn.prepareStatement(sql);
@@ -112,6 +177,8 @@ public class MovieDao {
                 movie.setDuration(rs.getInt("duration"));
                 movie.setCountry(rs.getString("country"));
                 movie.setScore(rs.getDouble("score"));
+                movie.setIsShowing(rs.getInt("is_showing"));
+                movie.setImageUrl(rs.getString("image_url"));
             }
             DBUtil.close(null, pstmt, rs);
         } catch (Exception e) {
@@ -149,10 +216,10 @@ public class MovieDao {
             }
             DBUtil.close(null, pstmt, rs);
 
-            // 搜索电影
-            String sql = "SELECT movie_id, movie_name, plot, genre, release_time, director, main_actors, duration, country, score " +
+            // 搜索电影（仅显示正在上映的电影）
+            String sql = "SELECT movie_id, movie_name, plot, genre, release_time, director, main_actors, duration, country, score, image_url " +
                     "FROM movie_information " +
-                    "WHERE movie_name LIKE ? OR director LIKE ? " +
+                    "WHERE (movie_name LIKE ? OR director LIKE ?) AND is_showing = 1 " +
                     "ORDER BY movie_id";
             pstmt = conn.prepareStatement(sql);
             String pattern = "%" + keyword + "%";
@@ -172,6 +239,7 @@ public class MovieDao {
                 movie.setDuration(rs.getInt("duration"));
                 movie.setCountry(rs.getString("country"));
                 movie.setScore(rs.getDouble("score"));
+                movie.setImageUrl(rs.getString("image_url"));
 
                 // 设置平均分
                 Integer movieId = movie.getMovieId();
@@ -214,10 +282,10 @@ public class MovieDao {
             }
             DBUtil.close(null, pstmt, rs);
 
-            // 按类型筛选
-            String sql = "SELECT movie_id, movie_name, plot, genre, release_time, director, main_actors, duration, country, score " +
+            // 按类型筛选（仅显示正在上映的电影）
+            String sql = "SELECT movie_id, movie_name, plot, genre, release_time, director, main_actors, duration, country, score, image_url " +
                     "FROM movie_information " +
-                    "WHERE genre = ? " +
+                    "WHERE genre = ? AND is_showing = 1 " +
                     "ORDER BY movie_id";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, genre);
@@ -235,6 +303,7 @@ public class MovieDao {
                 movie.setDuration(rs.getInt("duration"));
                 movie.setCountry(rs.getString("country"));
                 movie.setScore(rs.getDouble("score"));
+                movie.setImageUrl(rs.getString("image_url"));
 
                 // 设置平均分
                 Integer movieId = movie.getMovieId();
@@ -376,10 +445,11 @@ public class MovieDao {
         try {
             conn = DBUtil.getConnection();
             String sql = "SELECT m.movie_id, m.movie_name, m.plot, m.genre, m.release_time, " +
-                    "m.director, m.main_actors, m.duration, m.country, " +
+                    "m.director, m.main_actors, m.duration, m.country, m.image_url, " +
                     "AVG(s.score) as avg_score " +
                     "FROM movie_information m " +
                     "JOIN movie_score s ON m.movie_id = s.movie_id " +
+                    "WHERE m.is_showing = 1 " +
                     "GROUP BY m.movie_id " +
                     "ORDER BY avg_score DESC " +
                     "LIMIT ?";
@@ -398,6 +468,7 @@ public class MovieDao {
                 movie.setActors(rs.getString("main_actors"));
                 movie.setDuration(rs.getInt("duration"));
                 movie.setCountry(rs.getString("country"));
+                movie.setImageUrl(rs.getString("image_url"));
                 movie.setScore(rs.getDouble("avg_score"));
                 movieList.add(movie);
             }
@@ -438,7 +509,7 @@ public class MovieDao {
             DBUtil.close(null, pstmt, rs);
 
             // 按类型筛选
-            String sql = "SELECT movie_id, movie_name, plot, genre, release_time, director, main_actors, duration, country, score " +
+            String sql = "SELECT movie_id, movie_name, plot, genre, release_time, director, main_actors, duration, country, score, image_url " +
                     "FROM movie_information " +
                     "WHERE genre = ? " +
                     "ORDER BY release_time DESC " +
@@ -460,6 +531,7 @@ public class MovieDao {
                 movie.setDuration(rs.getInt("duration"));
                 movie.setCountry(rs.getString("country"));
                 movie.setScore(rs.getDouble("score"));
+                movie.setImageUrl(rs.getString("image_url"));
 
                 // 设置平均分
                 Integer movieId = movie.getMovieId();
@@ -506,5 +578,167 @@ public class MovieDao {
         }
 
         return false;
+    }
+
+    /**
+     * 添加新电影
+     * @param movie 电影信息对象
+     * @return 成功返回 true，失败返回 false
+     */
+    public boolean addMovie(MovieInformation movie) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = DBUtil.getConnection();
+            String sql = "INSERT INTO movie_information (movie_name, plot, genre, release_time, director, main_actors, score, duration, country) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, movie.getName());
+            pstmt.setString(2, movie.getContent());
+            pstmt.setString(3, movie.getGenre());
+            pstmt.setDate(4, new java.sql.Date(movie.getReleaseTime().getTime()));
+            pstmt.setString(5, movie.getDirector());
+            pstmt.setString(6, movie.getActors());
+            pstmt.setDouble(7, movie.getScore());
+            pstmt.setInt(8, movie.getDuration());
+            pstmt.setString(9, movie.getCountry());
+
+            int rows = pstmt.executeUpdate();
+            return rows > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            DBUtil.close(conn, pstmt, null);
+        }
+    }
+
+    /**
+     * 更新电影信息
+     * @param movie 电影信息对象
+     * @return 成功返回 true，失败返回 false
+     */
+    public boolean updateMovie(MovieInformation movie) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = DBUtil.getConnection();
+            String sql = "UPDATE movie_information SET " +
+                    "movie_name = ?, plot = ?, genre = ?, release_time = ?, " +
+                    "director = ?, main_actors = ?, score = ?, duration = ?, country = ? " +
+                    "WHERE movie_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, movie.getName());
+            pstmt.setString(2, movie.getContent());
+            pstmt.setString(3, movie.getGenre());
+            pstmt.setDate(4, new java.sql.Date(movie.getReleaseTime().getTime()));
+            pstmt.setString(5, movie.getDirector());
+            pstmt.setString(6, movie.getActors());
+            pstmt.setDouble(7, movie.getScore());
+            pstmt.setInt(8, movie.getDuration());
+            pstmt.setString(9, movie.getCountry());
+            pstmt.setInt(10, movie.getMovieId());
+
+            int rows = pstmt.executeUpdate();
+            return rows > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            DBUtil.close(conn, pstmt, null);
+        }
+    }
+
+    /**
+     * 删除电影（包含关联的评分、评论、收藏）
+     * @param movieId 电影ID
+     * @return 成功返回 true，失败返回 false
+     */
+    public boolean deleteMovie(int movieId) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = DBUtil.getConnection();
+            conn.setAutoCommit(false);
+
+            // 删除关联的评分
+            String deleteScores = "DELETE FROM movie_score WHERE movie_id = ?";
+            pstmt = conn.prepareStatement(deleteScores);
+            pstmt.setInt(1, movieId);
+            pstmt.executeUpdate();
+            DBUtil.close(null, pstmt, null);
+
+            // 删除关联的评论
+            String deleteComments = "DELETE FROM movie_comment WHERE movie_id = ?";
+            pstmt = conn.prepareStatement(deleteComments);
+            pstmt.setInt(1, movieId);
+            pstmt.executeUpdate();
+            DBUtil.close(null, pstmt, null);
+
+            // 删除关联的收藏
+            String deleteCollects = "DELETE FROM collect WHERE movie_id = ?";
+            pstmt = conn.prepareStatement(deleteCollects);
+            pstmt.setInt(1, movieId);
+            pstmt.executeUpdate();
+            DBUtil.close(null, pstmt, null);
+
+            // 删除电影
+            String deleteMovie = "DELETE FROM movie_information WHERE movie_id = ?";
+            pstmt = conn.prepareStatement(deleteMovie);
+            pstmt.setInt(1, movieId);
+            int rows = pstmt.executeUpdate();
+
+            conn.commit();
+            return rows > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return false;
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.setAutoCommit(true);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            DBUtil.close(conn, pstmt, null);
+        }
+    }
+
+    /**
+     * 更新电影上下架状态
+     * @param movieId 电影ID
+     * @param newStatus 新状态（1=上架，0=下架）
+     * @return 成功返回 true，失败返回 false
+     */
+    public boolean updateMovieStatus(int movieId, int newStatus) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = DBUtil.getConnection();
+            String sql = "UPDATE movie_information SET is_showing = ? WHERE movie_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, newStatus);
+            pstmt.setInt(2, movieId);
+
+            int rows = pstmt.executeUpdate();
+            return rows > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            DBUtil.close(conn, pstmt, null);
+        }
     }
 }

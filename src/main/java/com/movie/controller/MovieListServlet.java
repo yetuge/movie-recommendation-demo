@@ -28,8 +28,8 @@ public class MovieListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // 获取电影列表
-        List<MovieInformation> movieList = movieDao.findAllMovies();
+        // 获取正在上映的电影列表（前台专用）
+        List<MovieInformation> movieList = movieDao.findShowingMovies();
 
         // 存入 request 属性 (movieList.jsp 使用 "movies")
         request.setAttribute("movies", movieList);

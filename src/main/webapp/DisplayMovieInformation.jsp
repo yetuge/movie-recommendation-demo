@@ -22,17 +22,19 @@
         </div>
     <% }
 
-       if (movie != null) { %>
+       if (movie != null) {
+           String imageUrl = movie.getImageUrl() != null ? movie.getImageUrl() : "default.jpg";
+    %>
 
         <!-- 电影信息卡片 -->
         <div class="card mb-4" style="background: rgba(30, 30, 50, 0.8); border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 15px;">
             <div class="row g-0">
                 <div class="col-md-4">
-                    <img loading="lazy" src="${pageContext.request.contextPath}/images/movie_<%= movie.getMovieId() %>.jpg"
+                    <img loading="lazy" src="${pageContext.request.contextPath}/images/<%= imageUrl %>"
                          alt="<%= movie.getMovieName() %> 电影海报"
                          class="img-fluid rounded-start"
                          style="min-height: 400px; object-fit: cover;"
-                         onerror="this.src='https://via.placeholder.com/300x400/2a2a4a/ffd700?text=Movie'">
+                         onerror="this.src='${pageContext.request.contextPath}/images/default.jpg'">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">

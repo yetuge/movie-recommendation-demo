@@ -23,7 +23,15 @@
       "Bash(cmd /c copy:*)",
       "Bash(xcopy:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(\"G:\\\\apache-maven-3.9.12\\\\bin\\\\mvn.cmd\" clean:*)",
+      "Bash(cmd:*)",
+      "Bash(env:*)",
+      "Bash(sed:*)",
+      "Bash(javac:*)",
+      "Bash(where mvn:*)",
+      "Bash(G:/apache-maven-3.9.12/bin/mvn.cmd clean:*)",
+      "Bash(mvn.cmd clean:*)"
     ]
   }
 }

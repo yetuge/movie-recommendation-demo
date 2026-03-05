@@ -11,6 +11,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 采用 MVC 模式的 Java Web 应用，包含：
 
 - Web 前端 (JSP)
+- 管理后台 (admin.jsp)
 - 共享的 MySQL 8.0 数据库
 
 ## 技术栈
@@ -42,6 +43,7 @@ movie/
 │   ├── WEB-INF/
 │   │   └── web.xml  # Web 部署描述符
 │   ├── css/         # 样式表
+│   ├── images/       #_电影海报图片
 │   ├── js/          # JavaScript 文件
 │   └── *.jsp        # JSP 页面
 ├── pom.xml          # Maven 配置文件
@@ -82,9 +84,9 @@ mvn clean package
 
 DBUtil 类提供 JDBC 连接：
 
-- 数据库名: `movie_recommendation`
+- 数据库名: `movie_recommend_db`
 - 使用 `DBUtil.getConnection()` 获取连接
-- 使用 `DBUtil.close(conn, stmt, rs)` 释放资源
+- 使用 `DBUtil.close(conn, pstmt, rs)` 释放资源
 
 ### Session 管理
 
@@ -94,6 +96,17 @@ DBUtil 类提供 JDBC 连接：
 HttpSession session = request.getSession();
 OrdinaryUser user = (OrdinaryUser) session.getAttribute("currentUser");
 ```
+
+### 电影海报图片
+
+- 海报图片存储在 `src/main/webapp/images/` 目录
+- 数据库 `movie_information` 表的 `image_url` 字段存储图片文件名
+- JSP 页面使用以下格式显示海报：
+  ```jsp
+  src="${pageContext.request.contextPath}/images/<%= movie.getImageUrl() %>"
+  onerror="this.src='${pageContext.request.contextPath}/images/default.jpg'"
+  ```
+- 默认海报：`images/default.jpg`
 
 ## API 端点
 
@@ -120,7 +133,7 @@ OrdinaryUser user = (OrdinaryUser) session.getAttribute("currentUser");
 
 ### Web Servlet 映射
 
-| 路径         | 说明     |
+| 路径         |   说明     |
 | ------------ | -------- |
 | /login       | 登录     |
 | /register    | 注册     |
@@ -131,6 +144,17 @@ OrdinaryUser user = (OrdinaryUser) session.getAttribute("currentUser");
 | /addScore    | 添加评分 |
 | /collect     | 收藏操作 |
 | /recommend   | 推荐页面 |
+| /admin       | 管理后台 |
+
+### 管理后台 API (`/admin/movies`)
+
+| action       | 方法 | 说明                   |
+| ------------ | ---- | ---------------------- |
+| (default)    | GET  | 获取电影管理列表       |
+| add          | POST | 添加新电影             |
+| update       | POST | 更新电影信息           |
+| delete       | POST | 删除电影（级联删除）   |
+| toggleStatus | POST | 切换电影上下架状态     |
 
 ## 推荐算法
 
@@ -176,3 +200,6 @@ OrdinaryUser user = (OrdinaryUser) session.getAttribute("currentUser");
 ### 样式加载问题
 
 参考 `FRONTEND_STYLES_GUIDE.md` 和 `STYLE_TROUBLESHOOTING.md`
+
+# currentDate
+Today's date is 2026-03-05.
