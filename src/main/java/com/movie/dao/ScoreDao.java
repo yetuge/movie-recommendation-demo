@@ -10,16 +10,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 评分数据访问层
- */
+// 评分数据访问层
 public class ScoreDao {
 
-    /**
-     * 添加评分
-     * @param score 评分对象
-     * @return 成功返回 true，失败返回 false
-     */
+    
+    // 新增评分
     public boolean addScore(MovieScore score) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -44,12 +39,8 @@ public class ScoreDao {
         }
     }
 
-    /**
-     * 检查用户是否已评分过该电影
-     * @param userId 用户ID
-     * @param movieId 电影ID
-     * @return 已评分返回 true，未评分返回 false
-     */
+    
+    // 检查用户是否评分过该电影
     public boolean checkUserScored(int userId, int movieId) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -76,11 +67,8 @@ public class ScoreDao {
         return false;
     }
 
-    /**
-     * 更新评分
-     * @param score 评分对象（需包含 scoreId）
-     * @return 成功返回 true，失败返回 false
-     */
+    
+    // 更新评分
     public boolean updateScore(MovieScore score) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -105,12 +93,8 @@ public class ScoreDao {
         }
     }
 
-    /**
-     * 获取用户对某电影的评分
-     * @param userId 用户ID
-     * @param movieId 电影ID
-     * @return 评分对象，未评分返回 null
-     */
+    
+    // 查询用户对指定电影的评分
     public MovieScore getUserScore(int userId, int movieId) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -144,12 +128,8 @@ public class ScoreDao {
         return score;
     }
 
-    /**
-     * 获取用户高评分的电影（评分 >= minScore）
-     * @param userId 用户ID
-     * @param minScore 最低分数
-     * @return 高评分电影列表
-     */
+    
+    // 查询用户高分电影
     public List<MovieInformation> getHighScoreMovies(int userId, double minScore) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -191,11 +171,8 @@ public class ScoreDao {
         return movieList;
     }
 
-    /**
-     * 获取平均分最高的电影（热门推荐）
-     * @param limit 返回数量
-     * @return 热门电影列表
-     */
+    
+    // 查询热门高分电影
     public List<MovieInformation> getTopRatedMovies(int limit) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -204,12 +181,13 @@ public class ScoreDao {
 
         try {
             conn = DBUtil.getConnection();
-            String sql = "SELECT m.movie_id, m.movie_name, m.plot, m.genre, m.release_time, m.director, m.main_actors, m.duration, m.country, " +
+            String sql = "SELECT m.movie_id, m.movie_name, m.plot, m.genre, m.release_time, m.director, m.main_actors, m.duration, m.country, m.image_url, " +
                     "AVG(s.score) as avgScore " +
                     "FROM movie_score s " +
                     "JOIN movie_information m ON s.movie_id = m.movie_id " +
+                    "WHERE m.is_showing = 1 " +
                     "GROUP BY s.movie_id " +
-                    "HAVING COUNT(*) >= 2 AND m.is_showing = 1 " +
+                    "HAVING COUNT(*) >= 1 " +
                     "ORDER BY avgScore DESC, COUNT(*) DESC " +
                     "LIMIT ?";
             pstmt = conn.prepareStatement(sql);
@@ -227,6 +205,7 @@ public class ScoreDao {
                 movie.setActors(rs.getString("main_actors"));
                 movie.setDuration(rs.getInt("duration"));
                 movie.setCountry(rs.getString("country"));
+                movie.setImageUrl(rs.getString("image_url"));
                 movie.setScore(rs.getDouble("avgScore"));
                 movieList.add(movie);
             }

@@ -133,7 +133,7 @@ OrdinaryUser user = (OrdinaryUser) session.getAttribute("currentUser");
 
 ### Web Servlet 映射
 
-| 路径         |   说明     |
+| 路径         | 说明     |
 | ------------ | -------- |
 | /login       | 登录     |
 | /register    | 注册     |
@@ -148,13 +148,13 @@ OrdinaryUser user = (OrdinaryUser) session.getAttribute("currentUser");
 
 ### 管理后台 API (`/admin/movies`)
 
-| action       | 方法 | 说明                   |
-| ------------ | ---- | ---------------------- |
-| (default)    | GET  | 获取电影管理列表       |
-| add          | POST | 添加新电影             |
-| update       | POST | 更新电影信息           |
-| delete       | POST | 删除电影（级联删除）   |
-| toggleStatus | POST | 切换电影上下架状态     |
+| action       | 方法 | 说明                 |
+| ------------ | ---- | -------------------- |
+| (default)    | GET  | 获取电影管理列表     |
+| add          | POST | 添加新电影           |
+| update       | POST | 更新电影信息         |
+| delete       | POST | 删除电影（级联删除） |
+| toggleStatus | POST | 切换电影上下架状态   |
 
 ## 推荐算法
 
@@ -191,15 +191,10 @@ OrdinaryUser user = (OrdinaryUser) session.getAttribute("currentUser");
 
 ## 已知问题与解决方案
 
-### Servlet URL 冲突
-
-**问题**: `RecommendServlet` 和 `RecommendationServlet` 都映射到 `/recommend`
-
-**解决方案**: 将 `RecommendationServlet` 改为 `/recommendLegacy`（已废弃）
-
 ### 样式加载问题
 
 参考 `FRONTEND_STYLES_GUIDE.md` 和 `STYLE_TROUBLESHOOTING.md`
 
 # currentDate
+
 Today's date is 2026-03-05.

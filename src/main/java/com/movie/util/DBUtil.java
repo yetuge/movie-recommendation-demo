@@ -12,11 +12,11 @@ import java.sql.Statement;
  */
 public class DBUtil {
 
-    // 数据库配置
+    // 数据库配置（从环境变量读取）
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String URL = "jdbc:mysql://localhost:3306/movie_recommend_db?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "520yjj588";
+    private static final String URL = System.getenv("DB_URL");
+    private static final String USERNAME = System.getenv("DB_USERNAME");
+    private static final String PASSWORD = System.getenv("DB_PASSWORD");
 
     // 静态代码块 - 加载驱动
     static {
@@ -33,6 +33,9 @@ public class DBUtil {
      * @return Connection 对象
      */
     public static Connection getConnection() {
+        if (URL == null || USERNAME == null || PASSWORD == null) {
+            throw new RuntimeException("数据库环境变量未配置，请设置 DB_URL, DB_USERNAME, DB_PASSWORD");
+        }
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);

@@ -4,6 +4,8 @@ import com.movie.dao.UserDao;
 import com.movie.entity.OrdinaryUser;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 用户业务逻辑层
@@ -50,7 +52,7 @@ public class UserService {
 
         // 执行注册
         if (userDao.register(user)) {
-            return user;
+            return userDao.findUserByAccount(account);
         }
         return null;
     }
@@ -65,5 +67,20 @@ public class UserService {
             return false;
         }
         return userDao.checkUserExist(account);
+    }
+
+    public Map<String, Object> toSafeUser(OrdinaryUser user) {
+        Map<String, Object> userData = new HashMap<>();
+        if (user == null) {
+            return userData;
+        }
+        userData.put("userId", user.getUserId());
+        userData.put("phoneNumber", user.getPhoneNumber());
+        userData.put("userMailbox", user.getUserMailbox());
+        userData.put("userName", user.getUserName());
+        userData.put("gender", user.getGender());
+        userData.put("birthday", user.getBirthday());
+        userData.put("registerTime", user.getRegisterTime());
+        return userData;
     }
 }

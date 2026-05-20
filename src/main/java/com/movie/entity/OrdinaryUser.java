@@ -2,19 +2,16 @@ package com.movie.entity;
 
 import java.util.Date;
 
-/**
- * 普通用户实体类
- */
 public class OrdinaryUser {
 
-    private int userId;            // 用户ID
-    private String phoneNumber;     // 手机号
-    private String userMailbox;    // 邮箱
-    private String userPassword;   // 密码
-    private String userName;        // 用户名
-    private String gender;          // 性别
-    private Date birthday;         // 生日
-    private Date registerTime;      // 注册时间
+    private int userId;
+    private String phoneNumber;
+    private String userMailbox;
+    private String userPassword;
+    private String userName;
+    private String gender;
+    private Date birthday;
+    private Date registerTime;
 
     public OrdinaryUser() {
     }

@@ -27,7 +27,7 @@
 
         <div class="movie-grid">
         <%
-            List<MovieInformation> recommendations = (List<MovieInformation>) request.getAttribute("recommendations");
+            List<MovieInformation> recommendations = (List<MovieInformation>) request.getAttribute("recommendList");
             if (recommendations != null && !recommendations.isEmpty()) {
                 SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
                 for (MovieInformation movie : recommendations) {

@@ -7,16 +7,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-/**
- * 评论数据访问层
- */
+// 评论数据访问层
 public class CommentDao {
 
-    /**
-     * 添加评论
-     * @param comment 评论对象
-     * @return 成功返回 true，失败返回 false
-     */
+    
+    // 新增评论
     public boolean addComment(MovieComment comment) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -41,12 +36,8 @@ public class CommentDao {
         }
     }
 
-    /**
-     * 检查用户是否已评论过该电影
-     * @param userId 用户ID
-     * @param movieId 电影ID
-     * @return 已评论返回 true，未评论返回 false
-     */
+    
+    // 检查用户是否评论过该电影
     public boolean checkUserCommented(int userId, int movieId) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -73,11 +64,8 @@ public class CommentDao {
         return false;
     }
 
-    /**
-     * 更新评论
-     * @param comment 评论对象（需包含 commentId）
-     * @return 成功返回 true，失败返回 false
-     */
+    
+    // 更新评论内容
     public boolean updateComment(MovieComment comment) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -102,12 +90,8 @@ public class CommentDao {
         }
     }
 
-    /**
-     * 获取用户对某电影的评论
-     * @param userId 用户ID
-     * @param movieId 电影ID
-     * @return 评论对象，未评论返回 null
-     */
+    
+    // 查询用户对指定电影的评论
     public MovieComment getUserComment(int userId, int movieId) {
         Connection conn = null;
         PreparedStatement pstmt = null;

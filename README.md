@@ -187,12 +187,12 @@ cp target/movie.war /path/to/tomcat/webapps/
 
 **基础路径**: `/api/movie`
 
-| 端点            | 方法 | 参数      | 说明         |
-| --------------- | ---- | --------- | ------------ |
+| 端点            | 方法 | 参数      | 说明                   |
+| --------------- | ---- | --------- | ---------------------- |
 | `action=list`   | GET  | -         | 获取电影列表的所有电影 |
-| `action=detail` | GET  | `movieId` | 获取电影详情 |
-| `action=search` | GET  | `keyword` | 搜索电影     |
-| `action=genre`  | GET  | `genre`   | 按类型筛选   |
+| `action=detail` | GET  | `movieId` | 获取电影详情           |
+| `action=search` | GET  | `keyword` | 搜索电影               |
+| `action=genre`  | GET  | `genre`   | 按类型筛选             |
 
 **示例**:
 
@@ -236,13 +236,13 @@ GET /api/user?action=recommend&format=json
 
 **基础路径**: `/admin/movies`
 
-| 端点         | 方法 | 参数       | 说明                 |
-| ------------ | ---- | ---------- | -------------------- |
-| (default)    | GET  | -          | 获取电影管理列表       |
-| action=add    | POST | 电影所有字段 | 添加新电影             |
-| action=update | POST | 电影所有字段 | 更新电影信息           |
-| action=delete | POST | `movieId`  | 删除电影（级联删除）   |
-| action=toggleStatus | POST | `movieId, currentStatus` | 切换电影上下架状态     |
+| 端点                | 方法 | 参数                     | 说明                 |
+| ------------------- | ---- | ------------------------ | -------------------- |
+| (default)           | GET  | -                        | 获取电影管理列表     |
+| action=add          | POST | 电影所有字段             | 添加新电影           |
+| action=update       | POST | 电影所有字段             | 更新电影信息         |
+| action=delete       | POST | `movieId`                | 删除电影（级联删除） |
+| action=toggleStatus | POST | `movieId, currentStatus` | 切换电影上下架状态   |
 
 ### 响应格式
 
@@ -323,3 +323,19 @@ mvn package
 ## License
 
 MIT
+
+## Architecture
+
+Browser / Android
+|
+v
+Controller (Servlet)
+|
+v
+Service Layer
+|
+v
+DAO (JDBC)
+|
+v
+MySQL

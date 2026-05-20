@@ -13,10 +13,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * 推荐控制器
- * 生成"猜你喜欢"电影推荐
- */
 @WebServlet("/recommend")
 public class RecommendServlet extends HttpServlet {
 
@@ -31,31 +27,19 @@ public class RecommendServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // 检查用户是否登录
         HttpSession session = request.getSession();
         OrdinaryUser user = (OrdinaryUser) session.getAttribute("currentUser");
+        Integer userId = user == null ? null : user.getUserId();
 
-        if (user == null) {
-            // 未登录，显示热门推荐（策略 B：冷启动）
-            List<MovieInformation> hotMovies = recommendationService.recommendHotMovies();
-            request.setAttribute("recommendations", hotMovies);
-            request.setAttribute("recommendationType", "热门推荐");
-        } else {
-            // 已登录，生成个性化推荐
-            List<MovieInformation> recommendations = recommendationService.getRecommendations(user.getUserId());
-            request.setAttribute("recommendations", recommendations);
-            request.setAttribute("recommendationType", "猜你喜欢");
-        }
+        List<MovieInformation> recommendMovies = recommendationService.getRecommendationsForUser(userId);
 
-        // 转发到推荐页面
+        request.setAttribute("recommendList", recommendMovies);
         request.getRequestDispatcher("recommendation.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        // POST 请求同样处理
         doGet(request, response);
     }
 }
